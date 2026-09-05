@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "W1 · API 层架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1380,
+      650
+    ]
+  },
+  "components": [
+    {
+      "id": "caller",
+      "type": "frontend",
+      "label": "调用方",
+      "sublabel": "网页 / HTTP 客户端",
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        160,
+        76
+      ]
+    },
+    {
+      "id": "entry",
+      "type": "backend",
+      "label": "FastAPI 入口",
+      "sublabel": "POST /generate",
+      "pos": [
+        330,
+        260
+      ],
+      "size": [
+        190,
+        76
+      ]
+    },
+    {
+      "id": "adapter",
+      "type": "backend",
+      "label": "协议适配器",
+      "sublabel": "Responses / Messages",
+      "pos": [
+        670,
+        260
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "upstream",
+      "type": "external",
+      "label": "OpenRouter",
+      "sublabel": "上游始终 SSE",
+      "pos": [
+        1100,
+        260
+      ],
+      "size": [
+        210,
+        76
+      ]
+    },
+    {
+      "id": "prompt",
+      "type": "database",
+      "label": "提示词版本库",
+      "sublabel": "prompts.json → Template",
+      "pos": [
+        330,
+        40
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "输入与限流",
+      "sublabel": "校验 / 每模型 60 秒窗口",
+      "pos": [
+        330,
+        500
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "chunks",
+      "type": "backend",
+      "label": "统一事件处理",
+      "sublabel": "chunks / JSON Schema",
+      "pos": [
+        670,
+        500
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "observability",
+      "type": "database",
+      "label": "本地观测",
+      "sublabel": "JSONL / 最近 100 条",
+      "pos": [
+        1100,
+        500
+      ],
+      "size": [
+        210,
+        76
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "submit",
+      "from": "caller",
+      "to": "entry",
+      "label": "JSON"
+    },
+    {
+      "id": "select",
+      "from": "entry",
+      "to": "adapter",
+      "label": "模型选择"
+    },
+    {
+      "id": "send",
+      "from": "adapter",
+      "to": "upstream",
+      "label": "HTTPS POST"
+    },
+    {
+      "id": "render",
+      "from": "prompt",
+      "to": "entry",
+      "label": "模板展开",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "validate",
+      "from": "entry",
+      "to": "guard",
+      "label": "请求准入",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "normalize",
+      "from": "adapter",
+      "to": "chunks",
+      "label": "事件归一",
+      "labelDy": 80
+    },
+    {
+      "id": "record",
+      "from": "chunks",
+      "to": "observability",
+      "label": "结束记录"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "两种下游交付",
+      "items": [
+        "stream=false：聚合后返回 JSON",
+        "stream=true：delta / done / error"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "请求与重试",
+      "items": [
+        "初始请求 + 最多 3 次重试",
+        "流开始后的失败不重试"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "统一输出",
+      "items": [
+        "text / json / usage / metrics",
+        "结构化输出先缓存，验证后交付"
+      ]
+    }
+  ]
+}

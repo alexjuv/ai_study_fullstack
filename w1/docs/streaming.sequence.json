@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "流式调用 · 普通文本",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1380,
+      720
+    ]
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "调用方"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API 层"
+    },
+    {
+      "id": "remote",
+      "type": "external",
+      "label": "OpenRouter"
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "本地观测"
+    }
+  ],
+  "messages": [
+    {
+      "id": "streaming-0",
+      "from": "client",
+      "to": "api",
+      "y": 180,
+      "label": "POST /generate · stream=true",
+      "variant": "default"
+    },
+    {
+      "id": "streaming-1",
+      "from": "api",
+      "to": "remote",
+      "y": 229,
+      "label": "准入通过 → POST · stream=true",
+      "variant": "default"
+    },
+    {
+      "id": "streaming-2",
+      "from": "remote",
+      "to": "api",
+      "y": 278,
+      "label": "200 + 正确 SSE Content-Type",
+      "variant": "return"
+    },
+    {
+      "id": "streaming-3",
+      "from": "api",
+      "to": "client",
+      "y": 327,
+      "label": "200 text/event-stream",
+      "variant": "return"
+    },
+    {
+      "id": "streaming-4",
+      "from": "remote",
+      "to": "api",
+      "y": 376,
+      "label": "文本增量：记录首文本块 TTFT",
+      "variant": "return"
+    },
+    {
+      "id": "streaming-5",
+      "from": "api",
+      "to": "client",
+      "y": 425,
+      "label": "event: delta · text（逐块重复）",
+      "variant": "return"
+    },
+    {
+      "id": "streaming-6",
+      "from": "remote",
+      "to": "api",
+      "y": 474,
+      "label": "完成事件 + 最终 usage",
+      "variant": "return"
+    },
+    {
+      "id": "streaming-7",
+      "from": "api",
+      "to": "remote",
+      "y": 523,
+      "label": "关闭上游响应",
+      "variant": "default"
+    },
+    {
+      "id": "streaming-8",
+      "from": "api",
+      "to": "log",
+      "y": 572,
+      "label": "记录请求结果",
+      "variant": "default"
+    },
+    {
+      "id": "streaming-9",
+      "from": "api",
+      "to": "client",
+      "y": 621,
+      "label": "event: done · 完整 text 与 metrics",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "统一 SSE 协议",
+      "items": [
+        "delta 是增量；done.text 是完整结果",
+        "Cache-Control: no-cache / 禁用代理缓冲"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "流中失败",
+      "items": [
+        "已发送响应头后：event: error，不再改 HTTP 状态",
+        "流消费阶段的错误不重新发起上游请求"
+      ]
+    }
+  ]
+}

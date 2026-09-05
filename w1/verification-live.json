@@ -1,0 +1,99 @@
+{
+  "mode": "live",
+  "status": "failed",
+  "checks": [
+    {
+      "model": "z-ai/glm-5.2:free",
+      "case": "text",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"2f0561eb915042679228e5d1bbfb45e9\",\"model\":\"z-ai/glm-5.2:free\",\"text\":\"```json\\n{\\n  \\\"answer\\\": \\\"hello\\\"\\n}\\n```\",\"json\":null,\"usage\":{\"input_tokens\":21,\"output_tokens\":105,\"total_tokens\":126,\"cached_input_tokens\":0,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":90},\"usage_available\":true,\"metrics\":{\"latency_ms\":9937.254,\"ttft_ms\":9927.005,\"attempts\":3}}"
+    },
+    {
+      "model": "z-ai/glm-5.2:free",
+      "case": "SSE",
+      "passed": true,
+      "status_code": 200,
+      "response": "event: delta\ndata: {\"text\": \"```\"}\n\nevent: delta\ndata: {\"text\": \"json\\n{\\n \"}\n\nevent: delta\ndata: {\"text\": \" \\\"answer\\\": \\\"\"}\n\nevent: delta\ndata: {\"text\": \"hello\\\"\\n}\\n\"}\n\nevent: delta\ndata: {\"text\": \"```\"}\n\nevent: done\ndata: {\"request_id\": \"bc370c1aea7647899ba867a7ea4cdbf5\", \"model\": \"z-ai/glm-5.2:free\", \"text\": \"```json\\n{\\n  \\\"answer\\\": \\\"hello\\\"\\n}\\n```\", \"json\": null, \"usage\": {\"input_tokens\": 21, \"output_tokens\": 109, \"total_tokens\": 130, \"cached_input_tokens\": 0, \"cache_creation_input_tokens\": 0, \"reasoning_tokens\": 94}, \"usage_available\": true, \"metrics\": {\"latency_ms\": 7397.661, \"ttft_ms\": 7392.602, \"attempts\": 4}}\n\n"
+    },
+    {
+      "model": "z-ai/glm-5.2:free",
+      "case": "json_object",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"1a71ed55362e4827ab1f9d2d46924b5e\",\"model\":\"z-ai/glm-5.2:free\",\"text\":\"{\\\"answer\\\": \\\"hello\\\"}\",\"json\":{\"answer\":\"hello\"},\"usage\":{\"input_tokens\":36,\"output_tokens\":167,\"total_tokens\":203,\"cached_input_tokens\":0,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":159},\"usage_available\":true,\"metrics\":{\"latency_ms\":9311.008,\"ttft_ms\":9292.219,\"attempts\":4}}"
+    },
+    {
+      "model": "z-ai/glm-5.2:free",
+      "case": "json_schema",
+      "passed": false,
+      "status_code": 503,
+      "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}",
+      "previous_attempts": [
+        {
+          "status_code": 503,
+          "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}"
+        },
+        {
+          "status_code": 503,
+          "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}"
+        }
+      ],
+      "recheck_retry_base_seconds": 5
+    },
+    {
+      "model": "z-ai/glm-5.2:free",
+      "case": "prompt",
+      "passed": false,
+      "status_code": 503,
+      "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}",
+      "previous_attempts": [
+        {
+          "status_code": 503,
+          "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}"
+        },
+        {
+          "status_code": 503,
+          "response": "{\"error\":{\"code\":\"UPSTREAM_RATE_LIMITED\",\"message\":\"Upstream returned HTTP 429\"}}"
+        }
+      ],
+      "recheck_retry_base_seconds": 5
+    },
+    {
+      "model": "minimax/minimax-m3:free",
+      "case": "text",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"22b5252757574c82905978d7fffbc668\",\"model\":\"minimax/minimax-m3:free\",\"text\":\"{\\\"answer\\\":\\\"hello\\\"}\",\"json\":null,\"usage\":{\"input_tokens\":172,\"output_tokens\":6,\"total_tokens\":178,\"cached_input_tokens\":128,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":0},\"usage_available\":true,\"metrics\":{\"latency_ms\":1789.693,\"ttft_ms\":1482.195,\"attempts\":1}}"
+    },
+    {
+      "model": "minimax/minimax-m3:free",
+      "case": "SSE",
+      "passed": true,
+      "status_code": 200,
+      "response": "event: delta\ndata: {\"text\": \"```\"}\n\nevent: delta\ndata: {\"text\": \"json\\n{\\n\"}\n\nevent: delta\ndata: {\"text\": \"  \\\"answer\\\":\"}\n\nevent: delta\ndata: {\"text\": \" \\\"hello\\\"\\n}\\n\"}\n\nevent: delta\ndata: {\"text\": \"```\"}\n\nevent: done\ndata: {\"request_id\": \"a978ab8f02f441929ce77c7338f6aaf2\", \"model\": \"minimax/minimax-m3:free\", \"text\": \"```json\\n{\\n  \\\"answer\\\": \\\"hello\\\"\\n}\\n```\", \"json\": null, \"usage\": {\"input_tokens\": 172, \"output_tokens\": 14, \"total_tokens\": 186, \"cached_input_tokens\": 128, \"cache_creation_input_tokens\": 0, \"reasoning_tokens\": 0}, \"usage_available\": true, \"metrics\": {\"latency_ms\": 1812.692, \"ttft_ms\": 1769.53, \"attempts\": 1}}\n\n"
+    },
+    {
+      "model": "minimax/minimax-m3:free",
+      "case": "json_object",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"1d24d7243fae4ec99ab27f702caa7b7a\",\"model\":\"minimax/minimax-m3:free\",\"text\":\"{\\\"answer\\\":\\\"hello\\\"}\",\"json\":{\"answer\":\"hello\"},\"usage\":{\"input_tokens\":180,\"output_tokens\":6,\"total_tokens\":186,\"cached_input_tokens\":128,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":0},\"usage_available\":true,\"metrics\":{\"latency_ms\":1875.412,\"ttft_ms\":1452.574,\"attempts\":1}}"
+    },
+    {
+      "model": "minimax/minimax-m3:free",
+      "case": "json_schema",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"3dea73796cf6428b9dac7f11e535a1e3\",\"model\":\"minimax/minimax-m3:free\",\"text\":\"{\\\"answer\\\": \\\"hello\\\"}\",\"json\":{\"answer\":\"hello\"},\"usage\":{\"input_tokens\":205,\"output_tokens\":7,\"total_tokens\":212,\"cached_input_tokens\":204,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":0},\"usage_available\":true,\"metrics\":{\"latency_ms\":1539.766,\"ttft_ms\":1493.273,\"attempts\":1}}"
+    },
+    {
+      "model": "minimax/minimax-m3:free",
+      "case": "prompt",
+      "passed": true,
+      "status_code": 200,
+      "response": "{\"request_id\":\"9a9503335c194f13a152009271ae0e89\",\"model\":\"minimax/minimax-m3:free\",\"text\":\"SSE（Server-Sent Events）是浏览器与服务器之间实现单向实时通信的技术。\",\"json\":null,\"usage\":{\"input_tokens\":170,\"output_tokens\":19,\"total_tokens\":189,\"cached_input_tokens\":128,\"cache_creation_input_tokens\":0,\"reasoning_tokens\":0},\"usage_available\":true,\"metrics\":{\"latency_ms\":1480.725,\"ttft_ms\":1140.431,\"attempts\":1}}"
+    }
+  ],
+  "note": "Failed checks rerun with retry base 4 then 5 seconds and upstream Retry-After; prior failures preserved."
+}

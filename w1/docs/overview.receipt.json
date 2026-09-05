@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\overview.architecture.json",
+  "output": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\overview.html",
+  "specification": {
+    "sha256": "a155fc7d51647bd04110102387bf881ab1a5cde43db688f0b4aec3f54d0ab71f",
+    "bytes": 3814
+  },
+  "artifact": {
+    "sha256": "e18d52b590a4b89e8f3cb391e5128085f964212228afc0ea0e136b373f3e817b",
+    "bytes": 710341
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}
