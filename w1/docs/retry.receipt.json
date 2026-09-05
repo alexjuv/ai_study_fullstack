@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "sequence",
+  "input": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\retry.sequence.json",
+  "output": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\retry.html",
+  "specification": {
+    "sha256": "62ee416a8b74a32f08d4ca49a2823b5a298551feefe4aca35369d573564f4952",
+    "bytes": 2771
+  },
+  "artifact": {
+    "sha256": "9bff981f35e8e29be5ecf8c268ad9c70521fc347296d652589e5ac29a5a69190",
+    "bytes": 705768
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}

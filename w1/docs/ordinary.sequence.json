@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "普通调用 · 聚合后返回",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1380,
+      720
+    ]
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "调用方"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API 层"
+    },
+    {
+      "id": "remote",
+      "type": "external",
+      "label": "OpenRouter"
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "本地观测"
+    }
+  ],
+  "messages": [
+    {
+      "id": "ordinary-0",
+      "from": "client",
+      "to": "api",
+      "y": 180,
+      "label": "POST /generate · stream=false",
+      "variant": "default"
+    },
+    {
+      "id": "ordinary-1",
+      "from": "api",
+      "to": "remote",
+      "y": 229,
+      "label": "准入通过 → POST · stream=true",
+      "variant": "default"
+    },
+    {
+      "id": "ordinary-2",
+      "from": "remote",
+      "to": "api",
+      "y": 278,
+      "label": "200 text/event-stream",
+      "variant": "return"
+    },
+    {
+      "id": "ordinary-3",
+      "from": "remote",
+      "to": "api",
+      "y": 327,
+      "label": "文本增量：累积 text，首次记录 TTFT",
+      "variant": "return"
+    },
+    {
+      "id": "ordinary-4",
+      "from": "remote",
+      "to": "api",
+      "y": 376,
+      "label": "后续增量 + usage 合并",
+      "variant": "return"
+    },
+    {
+      "id": "ordinary-5",
+      "from": "remote",
+      "to": "api",
+      "y": 425,
+      "label": "完成事件：校验非空文本",
+      "variant": "return"
+    },
+    {
+      "id": "ordinary-6",
+      "from": "api",
+      "to": "remote",
+      "y": 474,
+      "label": "关闭上游响应",
+      "variant": "default"
+    },
+    {
+      "id": "ordinary-7",
+      "from": "api",
+      "to": "log",
+      "y": 523,
+      "label": "记录 status / latency / usage",
+      "variant": "default"
+    },
+    {
+      "id": "ordinary-8",
+      "from": "api",
+      "to": "client",
+      "y": 572,
+      "label": "200 JSON：text / json / usage / metrics",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "上下游流式独立",
+      "items": [
+        "下游 stream=false，上游仍然始终 SSE",
+        "chunks 的中间 delta 由服务端消费"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "时间边界",
+      "items": [
+        "TTFT 是首个非空文本块，不是首字节",
+        "延迟包含重试等待、消费与关闭上游"
+      ]
+    }
+  ]
+}

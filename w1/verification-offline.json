@@ -1,0 +1,16 @@
+{
+  "mode": "offline",
+  "status": "passed",
+  "checks": [
+    "Demo and architecture HTML routes; configuration files are not exposed",
+    "z-ai/glm-5.2:free: route, SSE, JSON/schema, prompt versions, usage, TTFT",
+    "minimax/minimax-m3:free: route, SSE, JSON/schema, prompt versions, usage, TTFT",
+    "Retries: exponential 0.01/0.02/0.04, max 3 retries, network retry, no auth retry",
+    "Both protocols: truncated stream, malformed SSE, upstream error, invalid JSON/schema handled",
+    "Validation, unified error codes, success/failure metrics and token categories",
+    "Per-model independent 429 limits and sliding-window expiry",
+    "Real localhost HTTP: both protocols deliver first SSE delta before upstream completion"
+  ],
+  "metrics_file": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\.tmp\\verify-metrics.jsonl",
+  "note": "Mock upstream evidence only; real provider acceptance requires --live."
+}

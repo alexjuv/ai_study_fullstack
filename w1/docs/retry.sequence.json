@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "重试边界 · 请求到观测",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1380,
+      720
+    ]
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "调用方"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API 层"
+    },
+    {
+      "id": "remote",
+      "type": "external",
+      "label": "OpenRouter"
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "本地观测"
+    }
+  ],
+  "messages": [
+    {
+      "id": "retry-0",
+      "from": "client",
+      "to": "api",
+      "label": "请求通过输入校验与每模型限流",
+      "y": 180,
+      "variant": "default"
+    },
+    {
+      "id": "retry-1",
+      "from": "api",
+      "to": "remote",
+      "label": "第 1 次连接请求",
+      "y": 229,
+      "variant": "default"
+    },
+    {
+      "id": "retry-2",
+      "from": "remote",
+      "to": "api",
+      "label": "示例：HTTP 429 / 5xx",
+      "y": 278,
+      "variant": "return"
+    },
+    {
+      "id": "retry-3",
+      "from": "api",
+      "to": "remote",
+      "label": "等待退避后重试（最多第 4 次）",
+      "y": 327,
+      "variant": "default"
+    },
+    {
+      "id": "retry-4",
+      "from": "remote",
+      "to": "api",
+      "label": "200 SSE 响应头 → 退出重试区",
+      "y": 376,
+      "variant": "return"
+    },
+    {
+      "id": "retry-5",
+      "from": "remote",
+      "to": "api",
+      "label": "消费 SSE：成功 / 中断 / 协议错误",
+      "y": 425,
+      "variant": "return"
+    },
+    {
+      "id": "retry-6",
+      "from": "api",
+      "to": "remote",
+      "label": "finally：关闭响应",
+      "y": 474,
+      "variant": "default"
+    },
+    {
+      "id": "retry-7",
+      "from": "api",
+      "to": "log",
+      "label": "ok / error / cancelled 记录一次",
+      "y": 523,
+      "variant": "default"
+    },
+    {
+      "id": "retry-8",
+      "from": "api",
+      "to": "client",
+      "label": "JSON 结果 / SSE done 或 error",
+      "y": 572,
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "只在连接阶段重试",
+      "items": [
+        "TransportError、429、5xx；首次 + 最多 3 次",
+        "等待 max(base × 2^attempt, Retry-After)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "结束边界",
+      "items": [
+        "200 SSE 头后即不重试，即使尚无首文本",
+        "关闭上游后记录；取消记 cancelled"
+      ]
+    }
+  ]
+}

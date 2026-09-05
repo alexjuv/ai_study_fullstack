@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "结构化输出 · 校验后交付",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1380,
+      720
+    ]
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "调用方"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API 层"
+    },
+    {
+      "id": "remote",
+      "type": "external",
+      "label": "OpenRouter"
+    },
+    {
+      "id": "validator",
+      "type": "security",
+      "label": "本地校验器"
+    },
+    {
+      "id": "log",
+      "type": "database",
+      "label": "本地观测"
+    }
+  ],
+  "messages": [
+    {
+      "id": "structured-0",
+      "from": "client",
+      "to": "api",
+      "y": 180,
+      "label": "response_format · 可选 stream=true",
+      "variant": "default"
+    },
+    {
+      "id": "structured-1",
+      "from": "api",
+      "to": "remote",
+      "y": 229,
+      "label": "注入 schema 提示 + 协议格式配置",
+      "variant": "default"
+    },
+    {
+      "id": "structured-2",
+      "from": "remote",
+      "to": "api",
+      "y": 278,
+      "label": "SSE 文本增量：只缓存，不向下游发送",
+      "variant": "return"
+    },
+    {
+      "id": "structured-3",
+      "from": "remote",
+      "to": "api",
+      "y": 327,
+      "label": "完成事件",
+      "variant": "return"
+    },
+    {
+      "id": "structured-4",
+      "from": "api",
+      "to": "validator",
+      "y": 376,
+      "label": "JSON 解析 + Draft202012 校验",
+      "variant": "default"
+    },
+    {
+      "id": "structured-5",
+      "from": "api",
+      "to": "remote",
+      "y": 425,
+      "label": "关闭上游响应",
+      "variant": "default"
+    },
+    {
+      "id": "structured-6",
+      "from": "api",
+      "to": "log",
+      "y": 474,
+      "label": "记录成功或 INVALID_STRUCTURED_OUTPUT",
+      "variant": "default"
+    },
+    {
+      "id": "structured-7",
+      "from": "api",
+      "to": "client",
+      "y": 523,
+      "label": "成功：一个完整 delta + done（流式）",
+      "variant": "return"
+    },
+    {
+      "id": "structured-8",
+      "from": "api",
+      "to": "client",
+      "y": 572,
+      "label": "或 JSON 响应（非流式）；失败返回 error",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "本地校验兜底",
+      "items": [
+        "json_object 必须得到对象",
+        "json_schema 使用用户 schema；拒绝 NaN / Infinity"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "看不到半成品",
+      "items": [
+        "校验失败不发送任何结构化文本 delta",
+        "TTFT 仍量上游首文本块，非用户可见首块"
+      ]
+    }
+  ]
+}

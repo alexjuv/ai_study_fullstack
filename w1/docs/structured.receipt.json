@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "sequence",
+  "input": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\structured.sequence.json",
+  "output": "C:\\AI\\alexjuv\\ai_study_fullstack\\w1\\docs\\structured.html",
+  "specification": {
+    "sha256": "ae43fed8dc1a7c212008bfdaa389af7a1af344dd125cf071da054d9ca462455c",
+    "bytes": 2958
+  },
+  "artifact": {
+    "sha256": "859424483d26b208fd74a8ec08825497fbbaf5d30624f5439461050e3c8ec24c",
+    "bytes": 706318
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}
